@@ -1,5 +1,5 @@
 # JRE base
-FROM adoptopenjdk/openjdk11:alpine-jre
+FROM adoptopenjdk/openjdk11:debianslim-jre
 
 # Environment variables
 ENV MC_VERSION="latest" \
@@ -8,7 +8,9 @@ ENV MC_VERSION="latest" \
     JAVA_OPTS=""
 
 ADD papermc.sh .
-RUN apk install --no-cache wget jq \
+RUN apt-get update \
+    && apt-get install -y wget jq \
+    && rm -rf /var/lib/apt/lists/* \
     && mkdir /papermc
 
 # Start script
