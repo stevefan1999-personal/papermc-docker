@@ -20,7 +20,7 @@ JAR_NAME=paper-${MC_VERSION}-${PAPER_BUILD}.jar
 URL=${URL}/builds/${PAPER_BUILD}/downloads/${JAR_NAME}
 
 # Update if necessary
-if [ ! -e ${JAR_NAME} ]
+if [ ! -f ${JAR_NAME} ]
 then
   # Remove old server jar(s)
   rm -f *.jar
@@ -28,13 +28,11 @@ then
   wget ${URL} -O ${JAR_NAME}
   
   # If this is the first run, accept the EULA
-  if [ ! -e eula.txt ]
+  if [ ! -f eula.txt ]
   then
-    # Run the server once to generate eula.txt
-    java -jar ${JAR_NAME}
-    # Edit eula.txt to accept the EULA
-    sed -i 's/false/true/g' eula.txt
+    echo "eula=true" > eula.txt
   fi
+  java -jar ${JAR_NAME}
 fi
 
 # Add RAM options to Java options if necessary
